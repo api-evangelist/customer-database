@@ -1,4 +1,4 @@
-name: Customer Database API
+name: Customer Database
 description: A comprehensive API for managing customer data, profiles, and related operations
 url: https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/apis.yml
 tags:
