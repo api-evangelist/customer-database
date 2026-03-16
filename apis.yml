@@ -1,56 +1,16 @@
 name: Customer Database API
 description: A comprehensive API for managing customer data, profiles, and related operations
-image: https://example.com/images/customer-db-api-logo.png
-url: https://api.example.com/customers
+url: https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/apis.yml
 tags:
 - customers
 - database
 - CRM
 - profiles
 created: '2024-01-15'
-modified: '2024-01-15'
-apis:
-- name: Customer Database API
-  description: RESTful API for creating, reading, updating, and deleting customer records
-  image: https://example.com/images/customer-api-icon.png
-  humanUrl: https://developer.example.com/customer-api
-  baseUrl: https://api.example.com/v1/customers
-  version: '1.0'
-  tags:
-  - customers
-  - CRUD
-  - profiles
-  properties:
-  - type: Documentation
-    url: https://developer.example.com/customer-api/docs
-  - type: OpenAPI
-    url: https://api.example.com/v1/customers/openapi.json
-  - type: Swagger
-    url: https://api.example.com/v1/customers/swagger.json
-  - type: Authentication
-    url: https://developer.example.com/customer-api/authentication
-  - type: Pricing
-    url: https://example.com/pricing/customer-api
-  - type: Terms of Service
-    url: https://example.com/terms
-  - type: Support
-    url: https://support.example.com/customer-api
-  - type: Contact
-    url: https://example.com/contact
-  - type: SDKs
-    url: https://developer.example.com/customer-api/sdks
-  - type: Postman Collection
-    url: https://api.example.com/v1/customers/postman-collection.json
-  - type: Rate Limits
-    url: https://developer.example.com/customer-api/rate-limits
-  - type: Change Log
-    url: https://developer.example.com/customer-api/changelog
-  - type: Status
-    url: https://status.example.com
+modified: '2026-03-16'
+apis: []
+common: []
 maintainers:
-- name: API Team
-  email: api-team@example.com
-  url: https://example.com/team
-include:
-- name: Related APIs
-  url: https://api.example.com/apis.json
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+specificationVersion: '0.19'
