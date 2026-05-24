@@ -50,3 +50,5 @@ common:
     url: https://datatracker.ietf.org/doc/html/rfc6350
   - type: SCIM 2.0
     url: https://datatracker.ietf.org/doc/html/rfc7643
+  - type: LLMsTxt
+    url: https://customer.io/llms.txt
