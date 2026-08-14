@@ -38,7 +38,7 @@ tags:
   - Profiles
   - Schema
 created: '2024-01-15'
-modified: '2026-04-28'
+modified: '2026-08-13'
 specificationVersion: '0.20'
 apis: []
 maintainers:
@@ -61,5 +61,61 @@ common:
     url: https://datatracker.ietf.org/doc/html/rfc6350
   - type: SCIM 2.0
     url: https://datatracker.ietf.org/doc/html/rfc7643
-  - type: LlmsText
-    url: https://customer.io/llms.txt
+  - type: SCIM 2.0 Protocol (RFC 7644)
+    url: https://datatracker.ietf.org/doc/html/rfc7644
+  - type: Schema.org Vocabulary (JSON-LD)
+    url: https://schema.org/version/latest/schemaorg-current-https.jsonld
+  - type: LLMsTxt
+    url: llms/customer-database-llms.txt
+  - type: Vocabulary
+    url: vocabulary/customer-database-vocabulary.yml
+  - type: DataModel
+    url: data-model/customer-database-data-model.yml
+  - type: JSONSchema
+    url: json-schema/customer-record.json
+  - type: JSONSchema
+    url: json-schema/customer-contact-point.json
+  - type: JSONSchema
+    url: json-schema/customer-postal-address.json
+  - type: JSONSchema
+    url: json-schema/customer-consent-record.json
+  - type: JSONSchema
+    url: json-schema/customer-identity-link.json
+  - type: JSONStructure
+    url: json-structure/customer-database-structure.json
+  - type: JSONLD
+    url: json-ld/customer-database-context.jsonld
+  - type: SpectralRules
+    url: rules/customer-database-jsonschema-spectral-rules.yml
+  - type: Examples
+    url: examples/customer-record-example.json
+  - type: Examples
+    url: examples/customer-consent-record-example.json
+  - type: Examples
+    url: examples/customer-identity-link-example.json
+x-enrichment:
+  date: '2026-08-13'
+  status: minimal
+  artifacts_added: 14
+  pass: local-v1
+x-coverage:
+  state: none
+  reason: not-a-software-company
+  detail: >-
+    Customer Database is an API Evangelist topic reference, not a company — apis.yml
+    declares apis: [] and the profile exists to point at the vendors and open standards in
+    the customer-data space, so there is no vendor, no host, and no API of its own to
+    document. repair-api-bases.py returned "missing" and probe-domain-security.py returned
+    "no-hosts" because no API entry names a base URL. The 14 artifacts added this pass are
+    neutral, standards-grounded reference material (a vocabulary, a SCIM/vCard/Schema.org
+    field crosswalk, five JSON Schemas, a JSON Structure, a JSON-LD context, a Spectral
+    ruleset, examples and an llms.txt), not a vendor surface. See the individual vendor
+    repositories — salesforce, hubspot, segment, customer-io, zendesk — for real APIs.
+  evidence:
+    - url: https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/apis.yml
+      status: 200
+    - url: https://schema.org/version/latest/schemaorg-current-https.jsonld
+      status: 200
+    - url: https://www.rfc-editor.org/rfc/rfc7643.txt
+      status: 200
+  checked: '2026-08-13'
