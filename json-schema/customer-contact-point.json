@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/json-schema/customer-contact-point.json",
+  "title": "Customer Contact Point",
+  "description": "A typed, addressable channel for reaching a customer. Models the shared shape of SCIM 2.0 multi-valued attributes (emails, phoneNumbers, ims), Schema.org ContactPoint, and the vCard EMAIL/TEL/IMPP properties with their TYPE and PREF parameters.",
+  "type": "object",
+  "required": ["kind", "value"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "kind": {
+      "type": "string",
+      "enum": ["email", "phone", "ims", "url", "postal"],
+      "description": "Channel family. SCIM splits these into separate attributes (emails, phoneNumbers, ims); this schema unifies them behind a discriminator."
+    },
+    "value": { "type": "string", "description": "The address itself. SCIM sub-attribute \"value\"." },
+    "type": {
+      "type": "string",
+      "description": "Sub-type within the family. SCIM sub-attribute \"type\"; vCard TYPE parameter. Common values: work, home, mobile, fax, pager, other.",
+      "examples": ["work", "home", "mobile", "fax", "other"]
+    },
+    "display": { "type": "string", "description": "Human-readable rendering of the value. SCIM sub-attribute \"display\"." },
+    "primary": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is the preferred entry for its type. SCIM sub-attribute \"primary\"; vCard PREF parameter. At most one entry per type should set this."
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "Whether the channel was confirmed reachable AND owned by the customer. Not modeled by any source standard, but load-bearing for deliverability and for deterministic identity matching — an unverified email is a weak key."
+    },
+    "verifiedAt": { "type": "string", "format": "date-time" },
+    "suppressed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this contact point is on the suppression list and must not be messaged regardless of consent or preference state."
+    },
+    "suppressionReason": {
+      "type": "string",
+      "enum": ["unsubscribe", "hard-bounce", "soft-bounce", "complaint", "legal-hold", "manual"]
+    }
+  }
+}

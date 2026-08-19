@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/json-schema/customer-identity-link.json",
+  "title": "Customer Identity Link",
+  "description": "An assertion that an external identifier belongs to a customer, carrying the method and confidence that produced it. These are the edges of the identity graph. No open standard models identity resolution, which is why identity graphs are proprietary and do not port between vendors; this schema is a neutral shape for describing one.",
+  "type": "object",
+  "required": ["namespace", "identifier", "method"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "customerId": { "type": "string" },
+    "namespace": {
+      "type": "string",
+      "description": "The system or identifier space the value belongs to. Without a namespace an identifier is not resolvable.",
+      "examples": ["crm", "cookie", "device-idfa", "device-gaid", "email-sha256", "phone-e164", "loyalty", "billing"]
+    },
+    "identifier": { "type": "string", "description": "The value itself. Hash rather than store raw identifiers where the namespace implies it." },
+    "method": {
+      "type": "string",
+      "enum": ["deterministic", "probabilistic", "declared"],
+      "description": "How the link was established. deterministic = exact agreement on a strong key; probabilistic = weighted similarity across weak attributes; declared = the customer told us."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Match score. REQUIRED and meaningful for probabilistic links; meaningless for deterministic ones, where its presence usually signals a modeling error."
+    },
+    "matchedOn": {
+      "type": "array",
+      "description": "Which attributes contributed to the match. Makes a probabilistic link reviewable instead of opaque.",
+      "items": { "type": "string" }
+    },
+    "linkedAt": { "type": "string", "format": "date-time" },
+    "expiresAt": { "type": "string", "format": "date-time", "description": "Pseudonymous identifiers decay. A cookie link that never expires overstates what is known." },
+    "active": { "type": "boolean", "default": true, "description": "Set false to break a link without losing the record that it was once asserted." }
+  }
+}

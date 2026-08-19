@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/json-schema/customer-consent-record.json",
+  "title": "Customer Consent Record",
+  "description": "A dated, auditable statement of what a customer permitted, for which purpose, through which channel, and under which legal basis. Deliberately append-only: a withdrawal is a NEW record superseding the prior one, never an edit, because the obligation is to prove what was true at the moment of processing. None of SCIM 2.0, vCard 4.0, or Schema.org models consent, so this schema has no upstream standard to mirror; the legalBasis enum follows the six lawful grounds in GDPR Article 6(1).",
+  "type": "object",
+  "required": ["purpose", "status", "legalBasis", "capturedAt"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "customerId": { "type": "string" },
+    "contactPointId": { "type": "string", "description": "Optional. Consent is often scoped to one channel rather than to the whole customer." },
+    "purpose": {
+      "type": "string",
+      "description": "The SPECIFIC processing purpose consent was given for. Purpose limitation means a consent captured for one purpose does not authorize another; a generic value such as \"marketing\" is usually too broad to rely on."
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["email", "sms", "phone", "postal", "push", "in-app", "profiling", "third-party-sharing"],
+      "description": "The channel or activity the consent covers."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["granted", "withdrawn", "pending", "expired"],
+      "description": "State of this record. Withdrawal is recorded as a new record with status withdrawn, not by mutating the granting record."
+    },
+    "legalBasis": {
+      "type": "string",
+      "enum": ["consent", "contract", "legal-obligation", "vital-interests", "public-task", "legitimate-interests"],
+      "description": "The lawful ground for processing. GDPR Article 6(1)(a) through (f)."
+    },
+    "capturedAt": { "type": "string", "format": "date-time", "description": "When the customer gave or withdrew this permission. Not when the row was written." },
+    "expiresAt": { "type": "string", "format": "date-time", "description": "When this permission lapses if not renewed. Several jurisdictions and sectors require re-consent on a fixed interval." },
+    "source": { "type": "string", "description": "Where the consent was captured — a form URL, an import job, a call centre, an API client. Required in practice to defend the record." },
+    "evidence": {
+      "type": "object",
+      "description": "Retained proof of capture. What makes the record auditable rather than merely asserted.",
+      "additionalProperties": false,
+      "properties": {
+        "reference": { "type": "string", "description": "Pointer to the stored artifact — form submission ID, call recording ID, signed document hash." },
+        "ipAddress": { "type": "string", "description": "Captured at the moment of consent. Itself personal data; retain under the same policy as the record." },
+        "userAgent": { "type": "string" },
+        "textPresented": { "type": "string", "description": "The exact wording the customer agreed to. Without this, the record proves that they clicked, not what they agreed to." },
+        "version": { "type": "string", "description": "Version of the notice or policy in force at capture time." }
+      }
+    },
+    "supersedes": { "type": "string", "description": "Identifier of the consent record this one replaces, forming the audit chain." },
+    "jurisdiction": { "type": "string", "description": "ISO 3166 code for the regime the record was captured under, since obligations differ by residency.", "examples": ["EU", "GB", "US-CA", "BR"] }
+  }
+}

@@ -1,0 +1,209 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  Derived from three published standards fetched during this pass, not from any vendor
+  API: SCIM 2.0 Core Schema (RFC 7643, https://www.rfc-editor.org/rfc/rfc7643.txt, 200),
+  vCard 4.0 (RFC 6350, https://www.rfc-editor.org/rfc/rfc6350.txt, 200), and the
+  Schema.org machine-readable vocabulary
+  (https://schema.org/version/latest/schemaorg-current-https.jsonld, 200). Every field
+  name in crosswalk[] was extracted programmatically from those documents and is present
+  in them verbatim. This repository is a topic reference and documents no vendor API;
+  see the individual vendor repositories for vendor data models.
+
+name: Customer Database Data Model
+description: >-
+  A reference entity-relationship model for a customer system of record, plus a field
+  crosswalk across the three open standards that describe a customer record. Intended as
+  a neutral target when mapping between CRM, CDP, provisioning, and contact-interchange
+  systems.
+
+entities:
+  - name: Customer
+    description: >-
+      The system-of-record representation of one customer. Carries a stable internal
+      identifier and the profile attributes that describe the person.
+    key: id
+    attributes:
+      - {name: id, type: string, note: Opaque, stable, system-assigned. SCIM "id"; vCard "UID".}
+      - {name: externalId, type: string, note: Identifier assigned by another system. SCIM "externalId".}
+      - {name: givenName, type: string}
+      - {name: familyName, type: string}
+      - {name: additionalName, type: string, note: Middle name.}
+      - {name: honorificPrefix, type: string}
+      - {name: honorificSuffix, type: string}
+      - {name: displayName, type: string}
+      - {name: nickName, type: string}
+      - {name: birthDate, type: string, format: date}
+      - {name: gender, type: string}
+      - {name: jobTitle, type: string}
+      - {name: preferredLanguage, type: string}
+      - {name: locale, type: string}
+      - {name: timezone, type: string, note: IANA tz database name.}
+      - {name: active, type: boolean, note: Soft-delete flag. SCIM "active".}
+      - {name: created, type: string, format: date-time}
+      - {name: lastModified, type: string, format: date-time}
+
+  - name: ContactPoint
+    description: >-
+      A typed, addressable channel for reaching a customer. Multi-valued in every source
+      standard, with one entry per type optionally flagged preferred.
+    key: id
+    attributes:
+      - {name: id, type: string}
+      - {name: kind, type: string, enum: [email, phone, address, ims, url], note: Which channel family this entry belongs to.}
+      - {name: value, type: string}
+      - {name: type, type: string, note: 'Sub-type within the family — work, home, mobile, fax, other.'}
+      - {name: primary, type: boolean, note: SCIM "primary" sub-attribute; vCard PREF parameter.}
+      - {name: verified, type: boolean, note: Whether the channel was confirmed reachable and owned by the customer.}
+
+  - name: PostalAddress
+    description: A structured physical address, kept separate because its sub-fields are addressed individually.
+    key: id
+    attributes:
+      - {name: id, type: string}
+      - {name: type, type: string, note: work, home, other.}
+      - {name: streetAddress, type: string}
+      - {name: locality, type: string}
+      - {name: region, type: string}
+      - {name: postalCode, type: string}
+      - {name: country, type: string, note: ISO 3166-1 alpha-2.}
+      - {name: formatted, type: string, note: Full address as a single presentable string. SCIM "formatted".}
+
+  - name: Organization
+    description: An employer, account, or household the customer belongs to.
+    key: id
+    attributes:
+      - {name: id, type: string}
+      - {name: name, type: string}
+      - {name: department, type: string}
+      - {name: division, type: string}
+      - {name: costCenter, type: string}
+
+  - name: ConsentRecord
+    description: >-
+      A dated statement of what the customer permitted, for what purpose, through which
+      channel, under which legal basis. Append-only — a withdrawal is a new record, never
+      an edit of the prior one.
+    key: id
+    attributes:
+      - {name: id, type: string}
+      - {name: purpose, type: string, note: The specific processing purpose consent was given for.}
+      - {name: channel, type: string, note: email, sms, phone, postal, push, profiling.}
+      - {name: status, type: string, enum: [granted, withdrawn, pending, expired]}
+      - {name: legalBasis, type: string, enum: [consent, contract, legal-obligation, vital-interests, public-task, legitimate-interests]}
+      - {name: capturedAt, type: string, format: date-time}
+      - {name: expiresAt, type: string, format: date-time}
+      - {name: source, type: string, note: Where the consent was captured — form URL, import, call centre, API client.}
+      - {name: evidence, type: string, note: Reference to the retained proof of capture.}
+
+  - name: IdentityLink
+    description: >-
+      An assertion that an external identifier belongs to this customer, carrying the
+      method and confidence that produced the link. The edges of the identity graph.
+    key: id
+    attributes:
+      - {name: id, type: string}
+      - {name: namespace, type: string, note: 'The system the identifier belongs to — crm, cookie, device, email-hash, loyalty.'}
+      - {name: identifier, type: string}
+      - {name: method, type: string, enum: [deterministic, probabilistic, declared]}
+      - {name: confidence, type: number, note: 0..1. Required for probabilistic links, meaningless for deterministic ones.}
+      - {name: linkedAt, type: string, format: date-time}
+
+  - name: Preference
+    description: A channel, topic, or frequency setting expressing what the customer wants, distinct from what they legally permitted.
+    key: id
+    attributes:
+      - {name: id, type: string}
+      - {name: category, type: string, enum: [channel, topic, frequency]}
+      - {name: key, type: string}
+      - {name: value, type: string}
+      - {name: updatedAt, type: string, format: date-time}
+
+relationships:
+  - {from: Customer, to: ContactPoint, type: has_many, via: customerId}
+  - {from: Customer, to: PostalAddress, type: has_many, via: customerId}
+  - {from: Customer, to: ConsentRecord, type: has_many, via: customerId}
+  - {from: Customer, to: IdentityLink, type: has_many, via: customerId}
+  - {from: Customer, to: Preference, type: has_many, via: customerId}
+  - {from: Customer, to: Organization, type: belongs_to, via: organizationId}
+  - {from: Customer, to: Customer, type: has_many, via: mergedFromId, note: Merge history — the losing records of a survivorship decision point at the golden record.}
+  - {from: ConsentRecord, to: ContactPoint, type: belongs_to, via: contactPointId, note: Optional. Consent is often scoped to one channel rather than the whole customer.}
+
+# ---------------------------------------------------------------------------
+# Field crosswalk. Every name below was extracted from the fetched source
+# documents; none is inferred. Blank means the standard has no direct
+# equivalent — an honest gap, not an omission.
+# ---------------------------------------------------------------------------
+crosswalk:
+  note: >-
+    Schema.org properties marked (Thing) are inherited by Person from Thing rather than
+    declared on Person directly; they were verified against schemaorg-current-https.jsonld
+    domainIncludes. SCIM names are from RFC 7643 §4.1 (core) and §4.3 (enterprise
+    extension). vCard names are from RFC 6350 §6.
+  fields:
+    - {concept: Internal identifier,   scim: id,                 schema_org: 'identifier (Thing)', vcard: UID}
+    - {concept: External identifier,   scim: externalId,         schema_org: 'identifier (Thing)', vcard: ''}
+    - {concept: Login handle,          scim: userName,           schema_org: '',                   vcard: ''}
+    - {concept: Full name,             scim: 'name.formatted',   schema_org: 'name (Thing)',       vcard: FN}
+    - {concept: Structured name,       scim: name,               schema_org: 'givenName, familyName, additionalName', vcard: N}
+    - {concept: Given name,            scim: 'name.givenName',   schema_org: givenName,            vcard: 'N (component 2)'}
+    - {concept: Family name,           scim: 'name.familyName',  schema_org: familyName,           vcard: 'N (component 1)'}
+    - {concept: Middle name,           scim: 'name.middleName',  schema_org: additionalName,       vcard: 'N (component 3)'}
+    - {concept: Honorific prefix,      scim: 'name.honorificPrefix', schema_org: honorificPrefix,  vcard: 'N (component 4)'}
+    - {concept: Honorific suffix,      scim: 'name.honorificSuffix', schema_org: honorificSuffix,  vcard: 'N (component 5)'}
+    - {concept: Display name,          scim: displayName,        schema_org: 'name (Thing)',       vcard: FN}
+    - {concept: Nickname,              scim: nickName,           schema_org: 'alternateName (Thing)', vcard: NICKNAME}
+    - {concept: Email address,         scim: emails,             schema_org: email,                vcard: EMAIL}
+    - {concept: Telephone,             scim: phoneNumbers,       schema_org: telephone,            vcard: TEL}
+    - {concept: Fax,                   scim: 'phoneNumbers (type=fax)', schema_org: faxNumber,     vcard: 'TEL (TYPE=fax)'}
+    - {concept: Messaging handle,      scim: ims,                schema_org: '',                   vcard: IMPP}
+    - {concept: Postal address,        scim: addresses,          schema_org: address,              vcard: ADR}
+    - {concept: Generic contact point, scim: '',                 schema_org: contactPoint,         vcard: ''}
+    - {concept: Profile URL,           scim: profileUrl,         schema_org: 'url (Thing)',        vcard: URL}
+    - {concept: Photo,                 scim: photos,             schema_org: 'image (Thing)',      vcard: PHOTO}
+    - {concept: Job title,             scim: title,              schema_org: jobTitle,             vcard: TITLE}
+    - {concept: Role,                  scim: roles,              schema_org: '',                   vcard: ROLE}
+    - {concept: Employer,              scim: 'enterprise:organization', schema_org: worksFor,      vcard: ORG}
+    - {concept: Department,            scim: 'enterprise:department',   schema_org: '',            vcard: 'ORG (component 2)'}
+    - {concept: Division,              scim: 'enterprise:division',     schema_org: '',            vcard: 'ORG (component 3)'}
+    - {concept: Cost centre,           scim: 'enterprise:costCenter',   schema_org: '',            vcard: ''}
+    - {concept: Employee number,       scim: 'enterprise:employeeNumber', schema_org: '',          vcard: ''}
+    - {concept: Manager,               scim: 'enterprise:manager',      schema_org: '',            vcard: 'RELATED (TYPE=co-worker)'}
+    - {concept: Group membership,      scim: groups,             schema_org: memberOf,             vcard: MEMBER}
+    - {concept: Birth date,            scim: '',                 schema_org: birthDate,            vcard: BDAY}
+    - {concept: Anniversary,           scim: '',                 schema_org: '',                   vcard: ANNIVERSARY}
+    - {concept: Gender,                scim: '',                 schema_org: gender,               vcard: GENDER}
+    - {concept: Nationality,           scim: '',                 schema_org: nationality,          vcard: ''}
+    - {concept: Preferred language,    scim: preferredLanguage,  schema_org: knowsLanguage,        vcard: LANG}
+    - {concept: Locale,                scim: locale,             schema_org: '',                   vcard: ''}
+    - {concept: Time zone,             scim: timezone,           schema_org: '',                   vcard: TZ}
+    - {concept: Geo coordinates,       scim: '',                 schema_org: '',                   vcard: GEO}
+    - {concept: Active / soft delete,  scim: active,             schema_org: '',                   vcard: ''}
+    - {concept: Credential,            scim: password,           schema_org: hasCredential,        vcard: KEY}
+    - {concept: Certificate,           scim: x509Certificates,   schema_org: '',                   vcard: KEY}
+    - {concept: Entitlements,          scim: entitlements,       schema_org: '',                   vcard: ''}
+    - {concept: Tags / categories,     scim: '',                 schema_org: '',                   vcard: CATEGORIES}
+    - {concept: Free-text note,        scim: '',                 schema_org: 'description (Thing)', vcard: NOTE}
+    - {concept: Cross-reference,       scim: '',                 schema_org: 'sameAs (Thing)',     vcard: SOURCE}
+    - {concept: Related person,        scim: '',                 schema_org: 'knows, relatedTo, spouse, sibling, parent, children', vcard: RELATED}
+    - {concept: Record revision,       scim: 'meta.lastModified', schema_org: '',                  vcard: REV}
+    - {concept: Record type,           scim: userType,           schema_org: '',                   vcard: KIND}
+
+gaps:
+  - >-
+    None of the three standards models CONSENT. SCIM provisions accounts, vCard
+    interchanges contacts, Schema.org describes people for the open web — the legal basis,
+    purpose, and withdrawal history that GDPR and CCPA require have no home in any of them.
+    Every customer database that handles EU or California residents therefore invents its
+    own consent model, which is why consent data is the hardest thing to port between
+    vendors. This is the single largest interoperability gap in the customer-record space.
+  - >-
+    None of the three models IDENTITY RESOLUTION. There is no standard way to express
+    "these two records are the same person, matched probabilistically at 0.87 confidence",
+    so identity graphs are entirely proprietary and non-portable.
+  - >-
+    vCard has no soft-delete or active flag, so a vCard export cannot distinguish a
+    deactivated customer from an active one.
+  - >-
+    Schema.org has no multi-valued typed contact structure equivalent to SCIM's
+    primary/type sub-attributes; ContactPoint approximates it but is not required.

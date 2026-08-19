@@ -1,0 +1,20 @@
+{
+  "id": "cns_01J8ZQ4K8E",
+  "customerId": "cus_01J8ZQ4K7M2N3P5R6S7T8V9W",
+  "contactPointId": "cp_01J8ZQ4K8A",
+  "purpose": "product-release-announcements",
+  "channel": "email",
+  "status": "granted",
+  "legalBasis": "consent",
+  "capturedAt": "2026-02-11T09:12:03Z",
+  "expiresAt": "2028-02-11T09:12:03Z",
+  "source": "https://www.example.com/newsletter",
+  "evidence": {
+    "reference": "form_sub_9f31c0",
+    "ipAddress": "203.0.113.42",
+    "userAgent": "Mozilla/5.0",
+    "textPresented": "Email me when a new product release ships. I can unsubscribe at any time.",
+    "version": "notice-2026-01"
+  },
+  "jurisdiction": "GB"
+}

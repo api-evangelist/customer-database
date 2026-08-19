@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/json-schema/customer-record.json",
+  "title": "Customer Record",
+  "description": "Reference schema for the system-of-record representation of a single customer. Field names align with SCIM 2.0 (RFC 7643), Schema.org Person, and vCard 4.0 (RFC 6350); see data-model/customer-database-data-model.yml for the field-by-field crosswalk. This is a neutral topic reference authored by API Evangelist, not a schema published by any vendor.",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Opaque, stable, system-assigned identifier for the customer. Equivalent to SCIM \"id\" and vCard \"UID\"."
+    },
+    "externalId": {
+      "type": "string",
+      "description": "Identifier assigned by a system other than this one, used to correlate the same customer across systems. Equivalent to SCIM \"externalId\"."
+    },
+    "name": {
+      "type": "object",
+      "description": "Structured name. Mirrors the SCIM \"name\" complex attribute and the five components of vCard \"N\".",
+      "additionalProperties": false,
+      "properties": {
+        "formatted": { "type": "string", "description": "Full name as it should be displayed. vCard \"FN\"; Schema.org \"name\"." },
+        "givenName": { "type": "string", "description": "Schema.org \"givenName\"." },
+        "familyName": { "type": "string", "description": "Schema.org \"familyName\"." },
+        "middleName": { "type": "string", "description": "Schema.org \"additionalName\"." },
+        "honorificPrefix": { "type": "string", "description": "Dr, Mrs, Mr. Schema.org \"honorificPrefix\"." },
+        "honorificSuffix": { "type": "string", "description": "PhD, MD. Schema.org \"honorificSuffix\"." }
+      }
+    },
+    "displayName": { "type": "string", "description": "Name intended for display. SCIM \"displayName\"." },
+    "nickName": { "type": "string", "description": "Casual name. SCIM \"nickName\"; vCard \"NICKNAME\"." },
+    "userName": { "type": "string", "description": "Login handle, where the customer record is also a login. SCIM \"userName\"." },
+    "userType": { "type": "string", "description": "Record classification — prospect, customer, employee, partner. SCIM \"userType\"; vCard \"KIND\"." },
+    "title": { "type": "string", "description": "Job title. SCIM \"title\"; Schema.org \"jobTitle\"; vCard \"TITLE\"." },
+    "birthDate": { "type": "string", "format": "date", "description": "Schema.org \"birthDate\"; vCard \"BDAY\". Special-category-adjacent in several jurisdictions; collect only with a purpose." },
+    "gender": { "type": "string", "description": "Schema.org \"gender\"; vCard \"GENDER\". Free text by design — do not constrain to a closed enum." },
+    "preferredLanguage": { "type": "string", "description": "BCP 47 language tag. SCIM \"preferredLanguage\"; vCard \"LANG\"." },
+    "locale": { "type": "string", "description": "Formatting locale. SCIM \"locale\"." },
+    "timezone": { "type": "string", "description": "IANA time zone database name, e.g. America/Los_Angeles. SCIM \"timezone\"; vCard \"TZ\"." },
+    "profileUrl": { "type": "string", "format": "uri", "description": "SCIM \"profileUrl\"; Schema.org \"url\"; vCard \"URL\"." },
+    "photo": { "type": "string", "format": "uri", "description": "SCIM \"photos\"; Schema.org \"image\"; vCard \"PHOTO\"." },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Soft-delete flag. SCIM \"active\". Distinguishes a deactivated customer from a deleted one; vCard has no equivalent, so this is lost on vCard export."
+    },
+    "organization": {
+      "type": "object",
+      "description": "Employer or account. Mirrors the SCIM enterprise User extension and the components of vCard \"ORG\".",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "Schema.org \"worksFor\"; vCard \"ORG\" component 1." },
+        "department": { "type": "string", "description": "SCIM enterprise \"department\"; vCard \"ORG\" component 2." },
+        "division": { "type": "string", "description": "SCIM enterprise \"division\"; vCard \"ORG\" component 3." },
+        "costCenter": { "type": "string", "description": "SCIM enterprise \"costCenter\"." },
+        "employeeNumber": { "type": "string", "description": "SCIM enterprise \"employeeNumber\"." }
+      }
+    },
+    "contactPoints": {
+      "type": "array",
+      "description": "Typed, addressable channels. Multi-valued in all three source standards.",
+      "items": { "$ref": "customer-contact-point.json" }
+    },
+    "addresses": {
+      "type": "array",
+      "description": "Structured postal addresses. SCIM \"addresses\"; Schema.org \"address\"; vCard \"ADR\".",
+      "items": { "$ref": "customer-postal-address.json" }
+    },
+    "consent": {
+      "type": "array",
+      "description": "Consent history. Append-only: a withdrawal is a new record, never an edit of the prior one. No source standard models this — see the gaps section of the data model.",
+      "items": { "$ref": "customer-consent-record.json" }
+    },
+    "identityLinks": {
+      "type": "array",
+      "description": "Edges of the identity graph. No source standard models this.",
+      "items": { "$ref": "customer-identity-link.json" }
+    },
+    "preferences": {
+      "type": "array",
+      "description": "Channel, topic, and frequency settings — what the customer WANTS, as distinct from what they legally permitted. Keep separate from consent.",
+      "items": {
+        "type": "object",
+        "required": ["category", "key", "value"],
+        "additionalProperties": false,
+        "properties": {
+          "category": { "type": "string", "enum": ["channel", "topic", "frequency"] },
+          "key": { "type": "string" },
+          "value": { "type": "string" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Free-form classification. vCard \"CATEGORIES\".",
+      "items": { "type": "string" }
+    },
+    "note": { "type": "string", "description": "Free-text note. Schema.org \"description\"; vCard \"NOTE\"." },
+    "sameAs": {
+      "type": "array",
+      "description": "Authoritative URLs for the same person elsewhere. Schema.org \"sameAs\".",
+      "items": { "type": "string", "format": "uri" }
+    },
+    "meta": {
+      "type": "object",
+      "description": "Record metadata. Mirrors the SCIM \"meta\" common attribute.",
+      "additionalProperties": false,
+      "properties": {
+        "resourceType": { "type": "string", "const": "Customer" },
+        "created": { "type": "string", "format": "date-time" },
+        "lastModified": { "type": "string", "format": "date-time", "description": "vCard \"REV\"." },
+        "version": { "type": "string", "description": "Entity tag for optimistic concurrency." },
+        "location": { "type": "string", "format": "uri" }
+      }
+    },
+    "mergedFrom": {
+      "type": "array",
+      "description": "Identifiers of records collapsed into this one, retained so a merge is auditable and reversible.",
+      "items": { "type": "string" }
+    }
+  }
+}

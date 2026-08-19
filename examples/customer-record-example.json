@@ -1,0 +1,137 @@
+{
+  "id": "cus_01J8ZQ4K7M2N3P5R6S7T8V9W",
+  "externalId": "CRM-448201",
+  "userName": "a.okonkwo",
+  "userType": "customer",
+  "name": {
+    "formatted": "Dr. Adaeze Okonkwo",
+    "givenName": "Adaeze",
+    "familyName": "Okonkwo",
+    "honorificPrefix": "Dr."
+  },
+  "displayName": "Adaeze Okonkwo",
+  "title": "Head of Data Engineering",
+  "preferredLanguage": "en-GB",
+  "locale": "en-GB",
+  "timezone": "Europe/London",
+  "active": true,
+  "organization": {
+    "name": "Northgate Analytics Ltd",
+    "department": "Platform",
+    "division": "Engineering",
+    "employeeNumber": "NG-1182"
+  },
+  "contactPoints": [
+    {
+      "id": "cp_01J8ZQ4K8A",
+      "kind": "email",
+      "value": "adaeze.okonkwo@example.com",
+      "type": "work",
+      "primary": true,
+      "verified": true,
+      "verifiedAt": "2026-02-11T09:14:22Z",
+      "suppressed": false
+    },
+    {
+      "id": "cp_01J8ZQ4K8B",
+      "kind": "email",
+      "value": "a.okonkwo@example.org",
+      "type": "home",
+      "primary": false,
+      "verified": false,
+      "suppressed": true,
+      "suppressionReason": "hard-bounce"
+    },
+    {
+      "id": "cp_01J8ZQ4K8C",
+      "kind": "phone",
+      "value": "+442071838750",
+      "type": "mobile",
+      "primary": true,
+      "verified": true
+    }
+  ],
+  "addresses": [
+    {
+      "id": "ad_01J8ZQ4K8D",
+      "type": "work",
+      "streetAddress": "12 Wharf Road",
+      "locality": "London",
+      "region": "England",
+      "postalCode": "N1 7GR",
+      "country": "GB",
+      "formatted": "12 Wharf Road, London N1 7GR, United Kingdom",
+      "primary": true
+    }
+  ],
+  "consent": [
+    {
+      "id": "cns_01J8ZQ4K8E",
+      "customerId": "cus_01J8ZQ4K7M2N3P5R6S7T8V9W",
+      "contactPointId": "cp_01J8ZQ4K8A",
+      "purpose": "product-release-announcements",
+      "channel": "email",
+      "status": "granted",
+      "legalBasis": "consent",
+      "capturedAt": "2026-02-11T09:12:03Z",
+      "expiresAt": "2028-02-11T09:12:03Z",
+      "source": "https://www.example.com/newsletter",
+      "evidence": {
+        "reference": "form_sub_9f31c0",
+        "ipAddress": "203.0.113.42",
+        "userAgent": "Mozilla/5.0",
+        "textPresented": "Email me when a new product release ships. I can unsubscribe at any time.",
+        "version": "notice-2026-01"
+      },
+      "jurisdiction": "GB"
+    },
+    {
+      "id": "cns_01J8ZQ4K8F",
+      "customerId": "cus_01J8ZQ4K7M2N3P5R6S7T8V9W",
+      "purpose": "cross-channel-behavioural-profiling",
+      "channel": "profiling",
+      "status": "withdrawn",
+      "legalBasis": "consent",
+      "capturedAt": "2026-06-30T16:40:11Z",
+      "source": "https://www.example.com/account/privacy",
+      "supersedes": "cns_01J8ZQ4K8G",
+      "jurisdiction": "GB"
+    }
+  ],
+  "identityLinks": [
+    {
+      "id": "idl_01J8ZQ4K8H",
+      "namespace": "email-sha256",
+      "identifier": "9b74c9897bac770ffc029102a200c5de1640ba3a3f5f1a1f3e3f1a2b4c5d6e7f",
+      "method": "deterministic",
+      "linkedAt": "2026-02-11T09:14:22Z",
+      "active": true
+    },
+    {
+      "id": "idl_01J8ZQ4K8J",
+      "namespace": "cookie",
+      "identifier": "amp-8Kq2rT4uV6wX8yZ0aB2cD4",
+      "method": "probabilistic",
+      "confidence": 0.82,
+      "matchedOn": ["ip-subnet", "user-agent", "session-overlap"],
+      "linkedAt": "2026-05-04T18:02:57Z",
+      "expiresAt": "2026-11-04T18:02:57Z",
+      "active": true
+    }
+  ],
+  "preferences": [
+    { "category": "frequency", "key": "email", "value": "weekly", "updatedAt": "2026-06-30T16:41:02Z" },
+    { "category": "topic", "key": "case-studies", "value": "false", "updatedAt": "2026-06-30T16:41:02Z" }
+  ],
+  "tags": ["enterprise", "uk", "platform-team"],
+  "note": "Prefers written follow-up over calls.",
+  "sameAs": ["https://www.example.com/team/adaeze-okonkwo"],
+  "meta": {
+    "resourceType": "Customer",
+    "created": "2026-02-11T09:12:03Z",
+    "lastModified": "2026-06-30T16:41:02Z",
+    "version": "W/\"7d3f21a\"",
+    "location": "https://api.example.com/v1/customers/cus_01J8ZQ4K7M2N3P5R6S7T8V9W"
+  },
+  "mergedFrom": ["cus_01J7A1B2C3D4E5F6G7H8J9K0"]
+}

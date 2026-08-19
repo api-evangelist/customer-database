@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/json-structure/customer-database-structure.json",
+  "name": "CustomerDatabase",
+  "description": "JSON Structure rendering of the customer system-of-record model. Uses precise primitive types where JSON Schema can only say \"string\", so a code generator can emit correct field types for a customer record. Field names align with SCIM 2.0 (RFC 7643), Schema.org Person, and vCard 4.0 (RFC 6350).",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Opaque stable identifier. SCIM \"id\"; vCard \"UID\"." },
+    "externalId": { "type": "string" },
+    "userName": { "type": "string" },
+    "userType": { "type": "string" },
+    "displayName": { "type": "string" },
+    "nickName": { "type": "string" },
+    "name": { "type": { "$ref": "#/definitions/Name" } },
+    "title": { "type": "string" },
+    "birthDate": { "type": "date" },
+    "gender": { "type": "string" },
+    "preferredLanguage": { "type": "string" },
+    "locale": { "type": "string" },
+    "timezone": { "type": "string" },
+    "profileUrl": { "type": "uri" },
+    "photo": { "type": "uri" },
+    "active": { "type": "boolean" },
+    "organization": { "type": { "$ref": "#/definitions/Organization" } },
+    "contactPoints": { "type": "set", "items": { "type": { "$ref": "#/definitions/ContactPoint" } } },
+    "addresses": { "type": "set", "items": { "type": { "$ref": "#/definitions/PostalAddress" } } },
+    "consent": { "type": "set", "items": { "type": { "$ref": "#/definitions/ConsentRecord" } } },
+    "identityLinks": { "type": "set", "items": { "type": { "$ref": "#/definitions/IdentityLink" } } },
+    "tags": { "type": "set", "items": { "type": "string" } },
+    "note": { "type": "string" },
+    "mergedFrom": { "type": "set", "items": { "type": "string" } },
+    "meta": { "type": { "$ref": "#/definitions/Meta" } }
+  },
+  "required": ["id"],
+  "definitions": {
+    "Name": {
+      "type": "object",
+      "properties": {
+        "formatted": { "type": "string" },
+        "givenName": { "type": "string" },
+        "familyName": { "type": "string" },
+        "middleName": { "type": "string" },
+        "honorificPrefix": { "type": "string" },
+        "honorificSuffix": { "type": "string" }
+      }
+    },
+    "Organization": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "department": { "type": "string" },
+        "division": { "type": "string" },
+        "costCenter": { "type": "string" },
+        "employeeNumber": { "type": "string" }
+      }
+    },
+    "ContactPoint": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "kind": { "type": "string", "enum": ["email", "phone", "ims", "url", "postal"] },
+        "value": { "type": "string" },
+        "type": { "type": "string" },
+        "display": { "type": "string" },
+        "primary": { "type": "boolean" },
+        "verified": { "type": "boolean" },
+        "verifiedAt": { "type": "datetime" },
+        "suppressed": { "type": "boolean" },
+        "suppressionReason": { "type": "string", "enum": ["unsubscribe", "hard-bounce", "soft-bounce", "complaint", "legal-hold", "manual"] }
+      },
+      "required": ["kind", "value"]
+    },
+    "PostalAddress": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "streetAddress": { "type": "string" },
+        "locality": { "type": "string" },
+        "region": { "type": "string" },
+        "postalCode": { "type": "string" },
+        "country": { "type": "string" },
+        "formatted": { "type": "string" },
+        "primary": { "type": "boolean" },
+        "latitude": { "type": "double" },
+        "longitude": { "type": "double" }
+      }
+    },
+    "ConsentRecord": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "purpose": { "type": "string" },
+        "channel": { "type": "string", "enum": ["email", "sms", "phone", "postal", "push", "in-app", "profiling", "third-party-sharing"] },
+        "status": { "type": "string", "enum": ["granted", "withdrawn", "pending", "expired"] },
+        "legalBasis": { "type": "string", "enum": ["consent", "contract", "legal-obligation", "vital-interests", "public-task", "legitimate-interests"] },
+        "capturedAt": { "type": "datetime" },
+        "expiresAt": { "type": "datetime" },
+        "source": { "type": "string" },
+        "supersedes": { "type": "string" },
+        "jurisdiction": { "type": "string" }
+      },
+      "required": ["purpose", "status", "legalBasis", "capturedAt"]
+    },
+    "IdentityLink": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "namespace": { "type": "string" },
+        "identifier": { "type": "string" },
+        "method": { "type": "string", "enum": ["deterministic", "probabilistic", "declared"] },
+        "confidence": { "type": "double" },
+        "matchedOn": { "type": "set", "items": { "type": "string" } },
+        "linkedAt": { "type": "datetime" },
+        "expiresAt": { "type": "datetime" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["namespace", "identifier", "method"]
+    },
+    "Meta": {
+      "type": "object",
+      "properties": {
+        "resourceType": { "type": "string" },
+        "created": { "type": "datetime" },
+        "lastModified": { "type": "datetime" },
+        "version": { "type": "string" },
+        "location": { "type": "uri" }
+      }
+    }
+  }
+}

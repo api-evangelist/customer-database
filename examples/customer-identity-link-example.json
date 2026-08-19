@@ -1,0 +1,12 @@
+{
+  "id": "idl_01J8ZQ4K8J",
+  "customerId": "cus_01J8ZQ4K7M2N3P5R6S7T8V9W",
+  "namespace": "cookie",
+  "identifier": "amp-8Kq2rT4uV6wX8yZ0aB2cD4",
+  "method": "probabilistic",
+  "confidence": 0.82,
+  "matchedOn": ["ip-subnet", "user-agent", "session-overlap"],
+  "linkedAt": "2026-05-04T18:02:57Z",
+  "expiresAt": "2026-11-04T18:02:57Z",
+  "active": true
+}

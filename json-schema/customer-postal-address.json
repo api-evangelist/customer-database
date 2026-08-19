@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/json-schema/customer-postal-address.json",
+  "title": "Customer Postal Address",
+  "description": "A structured physical address. Sub-field names follow the SCIM 2.0 \"addresses\" complex attribute (RFC 7643 section 4.1.2), which in turn follows the components of vCard \"ADR\" (RFC 6350 section 6.3.1).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "type": { "type": "string", "description": "work, home, other. SCIM sub-attribute \"type\"; vCard TYPE parameter.", "examples": ["work", "home", "other"] },
+    "streetAddress": { "type": "string", "description": "Full street address, newlines permitted. SCIM sub-attribute \"streetAddress\"." },
+    "locality": { "type": "string", "description": "City or locality. SCIM sub-attribute \"locality\"." },
+    "region": { "type": "string", "description": "State or region. SCIM sub-attribute \"region\"." },
+    "postalCode": { "type": "string", "description": "SCIM sub-attribute \"postalCode\"." },
+    "country": { "type": "string", "description": "ISO 3166-1 alpha-2 country code. SCIM sub-attribute \"country\".", "pattern": "^[A-Z]{2}$" },
+    "formatted": { "type": "string", "description": "The full address as a single presentable string. SCIM sub-attribute \"formatted\"." },
+    "primary": { "type": "boolean", "default": false },
+    "geo": {
+      "type": "object",
+      "description": "Optional coordinates. vCard \"GEO\".",
+      "additionalProperties": false,
+      "properties": {
+        "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+        "longitude": { "type": "number", "minimum": -180, "maximum": 180 }
+      }
+    }
+  }
+}

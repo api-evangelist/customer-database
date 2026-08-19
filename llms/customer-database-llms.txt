@@ -1,0 +1,84 @@
+# Customer Database
+
+> A topic profile maintained by API Evangelist covering APIs, schemas, vocabularies, and
+> reference designs for the systems of record that hold customer identity, profile,
+> contact, preference, consent, and account data. This is a REFERENCE topic, not a
+> company: it documents no vendor API of its own and has no base URL, no authentication,
+> and no endpoints. For a vendor's actual API, follow the vendor links below to that
+> vendor's own profile.
+
+## What this profile is
+
+A customer database underpins CRM, marketing automation, customer data platforms,
+customer service, billing, and analytics. It is increasingly expected to support
+API-first access, schema-on-write data quality, real-time eventing, GDPR/CCPA consent and
+erasure workflows, and identity resolution across web, mobile, and offline channels.
+
+This repository holds neutral, standards-grounded artifacts you can map a vendor or an
+in-house customer store against.
+
+## Machine-readable artifacts in this repository
+
+- [Vocabulary](vocabulary/customer-database-vocabulary.yml): controlled vocabulary for the
+  domain — golden record, survivorship rule, identity graph, suppression list, legal
+  basis, reverse ETL, schema-on-write, and the rest.
+- [Data model and standards crosswalk](data-model/customer-database-data-model.yml): a
+  reference entity-relationship model plus a field-by-field crosswalk of a customer record
+  across SCIM 2.0, Schema.org Person, and vCard 4.0. Every field name was extracted from
+  the source documents; blanks are real gaps, not omissions.
+- [Customer Record schema](json-schema/customer-record.json)
+- [Contact Point schema](json-schema/customer-contact-point.json)
+- [Postal Address schema](json-schema/customer-postal-address.json)
+- [Consent Record schema](json-schema/customer-consent-record.json)
+- [Identity Link schema](json-schema/customer-identity-link.json)
+- [JSON Structure](json-structure/customer-database-structure.json): the same model with
+  precise primitive types for code generation.
+- [JSON-LD context](json-ld/customer-database-context.jsonld): maps the model onto
+  Schema.org, the W3C vCard ontology, and the SCIM schema URNs.
+- [Spectral ruleset](rules/customer-database-jsonschema-spectral-rules.yml): lints a
+  customer schema for the mistakes that make it non-portable or non-auditable.
+- [Examples](examples/): a populated customer record, consent record, and identity link.
+
+## The three standards this model is built on
+
+- [SCIM 2.0 Core Schema — RFC 7643](https://www.rfc-editor.org/rfc/rfc7643.txt): the
+  core User schema and the enterprise extension.
+- [SCIM 2.0 Protocol — RFC 7644](https://www.rfc-editor.org/rfc/rfc7644.txt): REST
+  provisioning, PATCH semantics, bulk operations, filtering.
+- [vCard 4.0 — RFC 6350](https://www.rfc-editor.org/rfc/rfc6350.txt): the contact
+  interchange format.
+- [Schema.org Person](https://schema.org/Person): profile description for the open web.
+
+## What none of them cover
+
+Two things a real customer database cannot work without have no open standard at all:
+
+1. **Consent.** SCIM provisions accounts, vCard interchanges contacts, Schema.org
+   describes people. None models purpose, legal basis, or withdrawal history. Every
+   vendor therefore invents its own consent model, which is why consent data is the
+   hardest thing to port between platforms.
+2. **Identity resolution.** There is no standard way to say "these two records are the
+   same person, matched probabilistically at 0.87 confidence", so identity graphs are
+   entirely proprietary and non-portable.
+
+Both gaps are modeled explicitly in this repository so at least the shape of the problem
+is written down.
+
+## Vendors in this space
+
+Each of these has its own API Evangelist profile with its own OpenAPI, authentication,
+rate limits, and rating. Do not attribute anything in this topic repository to them.
+
+- [Salesforce](https://www.salesforce.com)
+- [HubSpot](https://www.hubspot.com)
+- [Segment](https://segment.com)
+- [Customer.io](https://customer.io)
+- [Zendesk](https://www.zendesk.com)
+
+## Provenance
+
+Maintained by API Evangelist. This is an independent third-party reference assembled from
+publicly available standards documents. Corrections and removal requests are free: open an
+issue on this repository or email info@apievangelist.com.
+
+- APIs.json: https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/apis.yml

@@ -1,0 +1,203 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  Authored for this topic profile from three published standards fetched during this
+  pass — SCIM 2.0 Core Schema (RFC 7643, https://www.rfc-editor.org/rfc/rfc7643.txt,
+  HTTP 200), vCard 4.0 (RFC 6350, https://www.rfc-editor.org/rfc/rfc6350.txt, HTTP 200),
+  and the Schema.org machine-readable vocabulary
+  (https://schema.org/version/latest/schemaorg-current-https.jsonld, HTTP 200). Attribute
+  and property names below are read from those documents, not from recollection. This is
+  a topic reference; no vendor publishes this file.
+
+name: Customer Database Vocabulary
+description: >-
+  Controlled vocabulary for the systems of record that hold customer identity, profile,
+  contact, preference, consent, and account data — the concepts that recur across CRM,
+  customer data platforms, marketing automation, support, and billing, and the open
+  standards that describe a customer record.
+
+terms:
+  # --- the record itself ---
+  - term: Customer Record
+    definition: >-
+      The system-of-record representation of a single customer, keyed by a stable
+      internal identifier and assembled from profile, contact, preference, consent, and
+      account attributes.
+  - term: Golden Record
+    definition: >-
+      The single reconciled customer record produced by merging duplicates and resolving
+      conflicts across source systems; the version downstream systems are told to trust.
+  - term: Profile Attribute
+    definition: >-
+      A descriptive field on a customer record — name, birth date, job title, language —
+      as distinct from a contact point or a behavioral event.
+  - term: Contact Point
+    definition: >-
+      An addressable channel for reaching a customer (email address, telephone number,
+      postal address, messaging handle). Multi-valued and typed in every major standard.
+    standards:
+      - 'Schema.org: contactPoint / email / telephone / address'
+      - 'SCIM 2.0: emails, phoneNumbers, ims, addresses'
+      - 'vCard 4.0: EMAIL, TEL, ADR, IMPP'
+  - term: Primary Value
+    definition: >-
+      The one entry in a multi-valued attribute marked preferred for its type — SCIM
+      expresses this as a boolean "primary" sub-attribute, vCard as the PREF parameter.
+  - term: Identifier
+    definition: >-
+      A value that names a customer inside some namespace — an internal primary key, a
+      SCIM "id" or "externalId", a vCard UID, a cookie or device ID, or a third-party
+      account handle.
+  - term: External Identifier
+    definition: >-
+      An identifier assigned by a system other than the one holding the record, used to
+      correlate the same customer across systems without exposing internal keys.
+
+  # --- identity resolution ---
+  - term: Identity Resolution
+    definition: >-
+      The process of deciding that two or more records refer to the same real person, and
+      linking or merging them accordingly.
+  - term: Deterministic Matching
+    definition: >-
+      Identity resolution on exact agreement of a strong key such as an email address,
+      phone number, or account number.
+  - term: Probabilistic Matching
+    definition: >-
+      Identity resolution on weighted similarity across several weak attributes (name,
+      address, birth date), producing a match score rather than a yes or no.
+  - term: Identity Graph
+    definition: >-
+      The linked set of identifiers — known and pseudonymous — that a platform believes
+      belong to one customer across web, mobile, and offline channels.
+  - term: Merge
+    definition: >-
+      Collapsing two customer records into one, with a documented rule for which source
+      wins per field and what happens to the losing record's identifiers.
+  - term: Survivorship Rule
+    definition: >-
+      The per-field policy that decides which value survives a merge — most recent, most
+      trusted source, most complete, or highest confidence.
+
+  # --- consent and privacy ---
+  - term: Consent Record
+    definition: >-
+      A dated, auditable statement of what a customer permitted, for which purpose,
+      through which channel, and under which legal basis.
+  - term: Purpose Limitation
+    definition: >-
+      The requirement that customer data collected for one stated purpose is not reused
+      for an unrelated one; expressed in a record as a purpose attached to consent.
+  - term: Legal Basis
+    definition: >-
+      The lawful ground for processing a customer's personal data — consent, contract,
+      legal obligation, vital interests, public task, or legitimate interests.
+  - term: Right to Erasure
+    definition: >-
+      A customer's right to have their personal data deleted, and the corresponding
+      obligation on a customer database to propagate deletion to every downstream copy.
+  - term: Right to Access
+    definition: >-
+      A customer's right to obtain the personal data held about them, which a customer
+      database satisfies through an export or subject-access endpoint.
+  - term: Data Portability
+    definition: >-
+      A customer's right to receive their data in a structured, commonly used,
+      machine-readable format and to have it transmitted to another controller.
+  - term: Suppression List
+    definition: >-
+      The set of contact points that must not be messaged regardless of what any other
+      record says — unsubscribes, bounces, complaints, and legal holds.
+  - term: Preference Center
+    definition: >-
+      The customer-facing surface where channel, topic, and frequency preferences are
+      set, and the record those settings write to.
+  - term: Pseudonymization
+    definition: >-
+      Replacing direct identifiers with a surrogate key so a record cannot be attributed
+      to a customer without separately held information.
+  - term: Data Subject
+    definition: >-
+      The identified or identifiable natural person a customer record describes; the
+      party holding the rights the record must honor.
+
+  # --- architecture ---
+  - term: Customer Data Platform
+    definition: >-
+      A system that ingests customer data from many sources, resolves it to persistent
+      unified profiles, and makes those profiles available to other systems.
+  - term: System of Record
+    definition: >-
+      The authoritative store for a given customer attribute; the copy other systems
+      reconcile against when they disagree.
+  - term: Reverse ETL
+    definition: >-
+      Moving reconciled customer data out of a warehouse back into operational tools,
+      the inverse of the ingestion path.
+  - term: Change Data Capture
+    definition: >-
+      Emitting a stream of row-level changes from the customer database so downstream
+      consumers stay current without polling.
+  - term: Audience Segment
+    definition: >-
+      A named, queryable subset of customer records defined by attribute and behavior
+      predicates, materialized for activation.
+  - term: Trait
+    definition: >-
+      A named attribute attached to a customer profile by an event-based ingestion
+      pipeline, as distinct from a column in a fixed schema.
+  - term: Schema-on-Write
+    definition: >-
+      Validating and conforming customer data to a declared schema at ingestion time,
+      rather than deferring interpretation to read time.
+
+  # --- provisioning and interchange ---
+  - term: SCIM
+    definition: >-
+      System for Cross-domain Identity Management — the IETF standard for provisioning
+      and managing user records over REST, defining a core User schema and an enterprise
+      extension.
+    standards:
+      - 'RFC 7643 (core schema)'
+      - 'RFC 7644 (protocol)'
+  - term: vCard
+    definition: >-
+      The IETF interchange format for contact records, defining typed properties for
+      names, contact points, organizations, and relationships.
+    standards:
+      - 'RFC 6350'
+  - term: Schema.org Person
+    definition: >-
+      The Schema.org type describing a person, used to mark up and exchange customer
+      profile data on the open web as JSON-LD.
+    standards:
+      - 'https://schema.org/Person'
+  - term: Bulk Operation
+    definition: >-
+      A single request carrying many customer creates, updates, or deletes, so a sync
+      does not degrade into one HTTP call per record.
+  - term: PATCH Semantics
+    definition: >-
+      Partial update of a customer record by operation list (add, replace, remove)
+      against attribute paths, rather than replacing the whole resource.
+  - term: Soft Delete
+    definition: >-
+      Marking a customer record inactive rather than removing it, preserving referential
+      integrity and audit history — SCIM expresses this as the "active" boolean.
+
+standards_referenced:
+  - name: SCIM 2.0 Core Schema
+    url: https://www.rfc-editor.org/rfc/rfc7643.txt
+    status: 200
+  - name: SCIM 2.0 Protocol
+    url: https://www.rfc-editor.org/rfc/rfc7644.txt
+    status: 200
+  - name: vCard 4.0
+    url: https://www.rfc-editor.org/rfc/rfc6350.txt
+    status: 200
+  - name: Schema.org vocabulary (JSON-LD)
+    url: https://schema.org/version/latest/schemaorg-current-https.jsonld
+    status: 200
+  - name: Schema.org Person
+    url: https://schema.org/Person
+    status: 200
