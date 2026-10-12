@@ -1,0 +1,16 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/customer-database/integrations
+- https://n8n.io/integrations/customer-database/
+- https://composio.dev/toolkits/customer-database
+- https://monid.ai/tools/customer-database
+checked:
+- https://composio.dev/toolkits/customer-database
+- https://monid.ai/tools/customer-database
+- https://n8n.io/integrations/customer-database/
+- https://zapier.com/apps/customer-database/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
