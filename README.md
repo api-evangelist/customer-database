@@ -1,4 +1,4 @@
-# Customer Database (customer-database)
+# Customer Database
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,55 +64,74 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Customer Database is the topic dedicated to APIs, schemas, vocabularies, and reference designs for the systems of record that store customer identity, profile, contact, preference, consent, and account data. A customer database underpins CRM, marketing automation, customer data platforms (CDPs), customer service, billing, and analytics use cases.
+Customer Database is the topic dedicated to APIs, schemas, vocabularies, and reference designs for the systems of record that store customer identity, profile, contact, preference, consent, and account data. A customer database underpins CRM, marketing automation, customer data platforms (CDPs), customer service, billing, and analytics use cases, and is increasingly expected to support API-first access, schema-on-write data quality, real-time eventing, GDPR/CCPA consent and erasure workflows, and identity resolution across web, mobile, and offline channels. This repository tracks the vendors, standards, and patterns that make customer data accessible, governed, and portable.
 
-This repository captures the vendors, standards, and patterns that make customer data accessible, governed, and portable.
+**Areas:** Account · Consent · Contacts · CRM · Customer Data · Customer Data Platform · Customers · Database · GDPR · Identity · Profiles · Schema
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/customer-database/refs/heads/main/apis.yml)
+## Customer Database on APIs.io
 
-## Scope
+Everything profiled for Customer Database is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/customer-database/](https://apis.io/providers/customer-database/)** — or go straight to one of the APIs or properties below.
 
-- **Type:** Topic
-- **Position:** Reference
-- **Access:** Public
+### Published properties
 
-## Tags
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- Account
-- Consent
-- Contacts
-- CRM
-- Customer Data
-- Customer Data Platform
-- Customers
-- Database
-- GDPR
-- Identity
-- Profiles
-- Schema
+#### JSON Schema (5)
 
-## Timestamps
+The data models the API reads and writes.
 
-- **Created:** 2024-01-15
-- **Modified:** 2026-04-28
+- [Customer Consent Record](https://apis.io/schemas/customer-database/customer-consent-record/)
+- [Customer Contact Point](https://apis.io/schemas/customer-database/customer-contact-point/)
+- [Customer Identity Link](https://apis.io/schemas/customer-database/customer-identity-link/)
+- [Customer Postal Address](https://apis.io/schemas/customer-database/customer-postal-address/)
+- [Customer Record](https://apis.io/schemas/customer-database/customer-record/)
 
-## APIs
+#### JSON Structure (1)
 
-This is a topic-level repository. It does not document a single vendor API; instead it points to the major customer database, CRM, and CDP platforms and to the underlying open standards (Schema.org Person, vCard, SCIM) that describe customer records. See the individual vendor repositories (Salesforce, HubSpot, Segment, Customer.io, Zendesk) for OpenAPI artifacts. Contributions welcome.
+Data models expressed in JSON Structure.
 
-## Common Properties
+- [Customer Database Structure](https://apis.io/json-structure/customer-database/customer-database-structure/)
 
-- [Salesforce](https://www.salesforce.com)
-- [HubSpot](https://www.hubspot.com)
-- [Segment](https://segment.com)
-- [Customer.io](https://customer.io)
-- [Zendesk](https://www.zendesk.com)
-- [Schema.org Person](https://schema.org/Person)
-- [vCard 4.0 (RFC 6350)](https://datatracker.ietf.org/doc/html/rfc6350)
-- [SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7643)
+#### JSON-LD (1)
 
-## Maintainers
+Linked-data contexts for the provider's vocabulary.
 
-**FN:** Kin Lane
+- [Customer Database Context](https://apis.io/jsonld/customer-database/customer-database-context/)
 
-**Email:** kin@apievangelist.com
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Customer Database Vocabulary](https://apis.io/vocabularies/customer-database/customer-database-vocabulary/)
+
+#### Examples (3)
+
+Example requests and responses.
+
+- [Customer Consent Record Example](https://apis.io/examples/customer-database/customer-consent-record-example/)
+- [Customer Identity Link Example](https://apis.io/examples/customer-database/customer-identity-link-example/)
+- [Customer Record Example](https://apis.io/examples/customer-database/customer-record-example/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Customer Database — jsonschema rules](https://apis.io/rules/customer-database/customer-database-jsonschema-spectral-rules/)
+
+## API Evangelist rating
+
+**Unrated** — no public website could be reached for this company, so there was almost nothing to measure and nothing a reader could check.
+
+This is not a score of zero. No rating is published for this company. If that is wrong because something public exists that we missed, say so on this repository or email [info@apievangelist.com](mailto:info@apievangelist.com) and it will be re-run — free, and no justification needed.
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Customer Database: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/customer-database/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
